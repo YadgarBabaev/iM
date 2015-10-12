@@ -106,11 +106,10 @@ public class Main extends Activity {
     class DeleteShop extends AsyncTask<String, String, String> {
 
         int success;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog.setMessage("Loading... Please wait...");
+            pDialog.setMessage("Request processing... Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();

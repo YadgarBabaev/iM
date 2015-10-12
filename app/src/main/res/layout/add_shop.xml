@@ -107,6 +107,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout> <!--Phone number-->
+        <LinearLayout
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/etDescription"
+                android:inputType="phone"
+                android:hint="Description"
+                android:minLines="5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout> <!--Description-->
         <Button
             android:id="@+id/btnOK"
             android:layout_gravity="center"

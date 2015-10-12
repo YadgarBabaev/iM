@@ -39,16 +39,16 @@ import java.util.List;
 /*upload image to server
 http://programmerguru.com/android-tutorial/how-to-upload-image-to-php-server/ */
 
-public class    AddShop extends Activity {
+public class AddShop extends Activity {
     JSONParser jsonParser = new JSONParser();
     RequestParams img = new RequestParams();
     RequestParams request = new RequestParams();
     private static final String TAG_SUCCESS = "success";
     private static int RESULT_LOAD_IMAGE = 11;
     String LOG_TAG = "MY_LOG", picturePath, owner;
-    String coordinates = "", encodedString;
+    String lat = "", lng = "", encodedString;
     ImageButton LatLng, dltButton, addButton;
-    EditText name, phone, address;
+    EditText name, phone, address, descrip;
     ProgressDialog pDialog;
     ImageView imageView;
     Button add_shop;
@@ -64,6 +64,7 @@ public class    AddShop extends Activity {
         name = (EditText) findViewById(R.id.etShopName);
         phone = (EditText) findViewById(R.id.etPhone);
         address = (EditText) findViewById(R.id.etShopAddress);
+        descrip = (EditText) findViewById(R.id.etDescription);
         add_shop = (Button) findViewById(R.id.btnOK);
         LatLng = (ImageButton) findViewById(R.id.fillLatLng);
         imageView = (ImageView)findViewById(R.id.image);
@@ -78,7 +79,8 @@ public class    AddShop extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AddShop.this, Map.class);
-                i.putExtra("coords", coordinates);
+                i.putExtra("lat", lat);
+                i.putExtra("lng", lng);
                 startActivityForResult(i, 10);
             }
         });
@@ -111,6 +113,7 @@ public class    AddShop extends Activity {
         String title = name.getText().toString();
         String number = phone.getText().toString();
         String adrs = address.getText().toString();
+        String desc = descrip.getText().toString();
         int success = 0;
 
         @Override
@@ -125,18 +128,12 @@ public class    AddShop extends Activity {
         @Override
         protected String doInBackground(String... args) {
             List<NameValuePair> params = new ArrayList<>();
-            String sql = String.format("INSERT INTO shop(title, address, coordinates, phone_number, user_id) " +
-                    "VALUES ('%1$s', '%2$s', '%3$s', '%4$s', '%5$s');", title, adrs, coordinates, number, owner);
+            String sql = String.format("INSERT INTO shop(title, address, phone_number, description, latitude, longitude, user_id) " +
+                    "VALUES ('%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s', '%7$s');", title, adrs, number, desc, lat, lng, owner);
 
             //"DELETE FROM shop WHERE id = ";
             params.add(new BasicNameValuePair("type", "set"));
             params.add(new BasicNameValuePair("sql", sql));
-
-//            params.add(new BasicNameValuePair("title", shop));
-//            params.add(new BasicNameValuePair("address", adrs));
-//            params.add(new BasicNameValuePair("coordinates", coordinates));
-//            params.add(new BasicNameValuePair("phone", number));
-//            params.add(new BasicNameValuePair("owner", owner));
 
             Log.d("MY_LOG", params.toString());
 
@@ -169,7 +166,8 @@ public class    AddShop extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10 && resultCode == RESULT_OK && data != null) {
-            coordinates = data.getStringExtra("LatLng");
+            lat = data.getStringExtra("Lat");
+            lng = data.getStringExtra("Lng");
         }
 
         super.onActivityResult(requestCode, resultCode, data);

@@ -20,7 +20,6 @@
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="AST"
                     android:textSize="20sp"
                     android:padding="20dp"
                     android:textColor="@android:color/white"
@@ -32,7 +31,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:text="asdsadsadsadsadsadsadsadsadsadsadsadsad sadsadsadsafdafsafasf  asfsafsafasfsa"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"/>
                 <RelativeLayout
@@ -41,7 +39,6 @@
                     android:layout_below="@+id/description"
                     android:padding="10dp">
                     <mmsolutions.im.CustomFontTextView
-                        android:text="Contacts"
                         android:id="@+id/contacts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,7 +54,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true">
                         <mmsolutions.im.CustomFontTextView
-                            android:text="Address"
                             android:id="@+id/address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

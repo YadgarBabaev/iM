@@ -36,28 +36,31 @@ import java.util.List;
 import mmsolutions.im.SignIn.MainPage;
 
 public class AllShops extends ListActivity {
-    private ProgressDialog pDialog;
 
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
     RequestParams request = new RequestParams();
-
     ArrayList<HashMap<String, String>> productsList;
     ArrayList<String> shopList;
     boolean enable = true;
 
-    // url to get all products list
-    String url;
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_SHOPS = "data";
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "title";
     private static final String TAG_ADDRESS = "address";
     private static final String TAG_PHONE = "phone_number";
+    private static final String TAG_LAT = "latitude";
+    private static final String TAG_LNG = "longitude";
+    private static final String TAG_COORDS = "coordinates";
+    private static final String TAG_LOGO = "image";
+    private static final String TAG_DESCRIPTION = "description";
+
     // products JSONArray
     JSONArray shops = null;
-    String owner;
+    String owner, url;
     LinearLayout layout;
+    ProgressDialog pDialog;
 
     int[] img = {R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6, R.drawable.img7};
 
@@ -72,7 +75,7 @@ public class AllShops extends ListActivity {
 
 //        Intent i = getIntent();
 //        owner = i.getStringExtra("owner");
-        owner = "1";
+        owner = "18";
         url = getString(R.string.sql_handler); //url to send
         pDialog = new ProgressDialog(AllShops.this);
 
@@ -88,9 +91,20 @@ public class AllShops extends ListActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // getting values from selected ListItem
                 String shop_id = ((TextView) view.findViewById(R.id.shopID)).getText().toString();
+                String title = ((TextView) view.findViewById(R.id.shopTitle)).getText().toString();
+                String desc = ((TextView) view.findViewById(R.id.description)).getText().toString();
+                String phone = ((TextView) view.findViewById(R.id.shopPhone)).getText().toString();
+                String address = ((TextView) view.findViewById(R.id.shopAddress)).getText().toString();
+                String coords = ((TextView) view.findViewById(R.id.coordinates)).getText().toString();
+
                 // Starting new intent
                 Intent in = new Intent(getApplicationContext(), AllGoods.class);
                 in.putExtra(TAG_ID, shop_id);
+                in.putExtra(TAG_NAME, title);
+                in.putExtra(TAG_ADDRESS, address);
+                in.putExtra(TAG_PHONE, phone);
+                in.putExtra(TAG_DESCRIPTION, desc);
+                in.putExtra(TAG_COORDS, coords);
                 startActivity(in);
             }
         });
@@ -179,6 +193,10 @@ public class AllShops extends ListActivity {
                         String name = c.getString(TAG_NAME);
                         String address = c.getString(TAG_ADDRESS);
                         String phone = c.getString(TAG_PHONE);
+                        String lat = c.getString(TAG_LAT);
+                        String lng = c.getString(TAG_LNG);
+                        String coordinates = lat + ", " + lng;
+                        String desc = c.getString(TAG_DESCRIPTION);
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<>();
 
@@ -187,9 +205,11 @@ public class AllShops extends ListActivity {
                         map.put(TAG_NAME, name);
                         map.put(TAG_ADDRESS, address);
                         map.put(TAG_PHONE, phone);
+                        map.put(TAG_COORDS, coordinates);
+                        map.put(TAG_DESCRIPTION, desc);
 
 //                        map.put("image", String.valueOf(img[new Random().nextInt(7)]));
-                        map.put("image", String.valueOf(img[i]));
+                        map.put(TAG_LOGO, String.valueOf(img[i%7]));
 
                         // adding HashList to ArrayList
                         productsList.add(map);
@@ -220,8 +240,8 @@ public class AllShops extends ListActivity {
                     public void run() {
                         ListAdapter adapter = new SimpleAdapter(
                                 AllShops.this, productsList,
-                                R.layout.list_item_for_shops, new String[]{TAG_ID, TAG_NAME, TAG_ADDRESS, TAG_PHONE, "image"},
-                                new int[]{R.id.shopID, R.id.shopTitle, R.id.shopAddress, R.id.shopPhone, R.id.shop_logo});
+                                R.layout.list_item_for_shops, new String[]{TAG_ID, TAG_NAME, TAG_ADDRESS, TAG_PHONE, TAG_LOGO, TAG_COORDS, TAG_DESCRIPTION},
+                                new int[]{R.id.shopID, R.id.shopTitle, R.id.shopAddress, R.id.shopPhone, R.id.shop_logo, R.id.coordinates, R.id.description});
                         // updating listView
                         setListAdapter(adapter);
                     }

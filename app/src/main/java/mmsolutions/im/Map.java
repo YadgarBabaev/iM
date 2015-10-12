@@ -22,7 +22,6 @@ public class Map extends FragmentActivity{
     double markerLat, markerLng, lat, lng;
     GoogleMap map;
     Marker marker;
-    String coords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +45,12 @@ public class Map extends FragmentActivity{
         });
 
         Intent i = getIntent();
-        coords = i.getStringExtra("coords");
-        Log.d("LatLng", "Coords:" + coords);
 
-        if (!coords.equals("")){
-            String[] parts = coords.split(",");
-            lat = Double.parseDouble(parts[0]);
-            lng = Double.parseDouble(parts[1]);
-        }
-        else {
+        lat = Double.parseDouble(i.getStringExtra("lat"));
+        lng = Double.parseDouble(i.getStringExtra("lng"));
+        Log.d("LatLng", lat + ", " +  lng);
+
+        if (lat == 0 || lng == 0){
             lat = 42.87442305;
             lng = 74.61158752;
         }
@@ -91,7 +87,8 @@ public class Map extends FragmentActivity{
             @Override
             public void onClick(View v) {
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("LatLng", String.format("%1$.6f,%2$.6f", markerLat, markerLng));
+                returnIntent.putExtra("Lat", String.format("%1$.6f", markerLat));
+                returnIntent.putExtra("Lng", String.format("%1$.6f", markerLng));
                 setResult(RESULT_OK, returnIntent);
                 finish();
                 Log.d("LatLng", "Lat :" + markerLat + " Long :" + markerLng);
