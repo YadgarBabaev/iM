@@ -37,3 +37,6 @@ build/**
 # Proguard
 proguard/**
 /.project
+
+build
+ghsync-master.iml
