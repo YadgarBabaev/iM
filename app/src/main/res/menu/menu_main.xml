@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AllShops">
+
+    <!--<item android:id="@+id/action_settings"-->
+        <!--android:title="@string/action_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--app:showAsAction="never"/>-->
+
+    <item android:id="@+id/action_add_shop"
+        android:title="Новый магазин"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_add_goods"
+        android:title="Добавить товар"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_reload"
+        android:title="Обновить"
+        android:icon="@android:drawable/ic_popup_sync"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_logout"
+        android:title="Войти"
+        app:showAsAction="always"/>
+</menu>

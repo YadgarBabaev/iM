@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar"/>
+
+    <style name="ImageBackground" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@mipmap/welcome_screen</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="MyColorDialogTheme" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+</resources>

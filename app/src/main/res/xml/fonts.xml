@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<familyset>
+    <family>
+        <nameset>
+            <name>eurofurence</name>
+        </nameset>
+        <fileset>
+            <file>eurofurence.ttf</file>
+            <file>eurofurence_italic.ttf</file>
+            <file>eurofurence_light.ttf</file>
+            <file>eurofurence_light_italic.ttf</file>
+            <file>eurofurence_bold/ttf</file>
+            <file>eurofurence_bold_italic.ttf</file>
+        </fileset>
+    </family>
+</familyset>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <mmsolutions.im.CustomFontTextView
+        android:id="@+id/text"
+        android:text="Логин"
+        android:textColor="@android:color/white"
+        android:textSize="80sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:shadowColor="@color/abc_search_url_text"
+        android:shadowRadius="10"
+        android:shadowDx="1"
+        android:shadowDy="1"/>
+
+    <ImageView
+        android:id="@+id/i1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/i2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/i3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--<LinearLayout-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent">-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv1"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Downloading File with ProgressBar Demo From Coderzheaven"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/b1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Download File"-->
+            <!--android:onClick="downloadFile" />-->
+    <!--</LinearLayout>-->
+</LinearLayout>

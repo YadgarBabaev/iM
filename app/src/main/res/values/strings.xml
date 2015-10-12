@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">iMarkets</string>
+
+    <string name="url">http://192.168.88.70/im/</string>
+    <string name="sql_handler">http://192.168.88.70/im/sql_handler.php</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="address">Address:</string>
+    <string name="shop_name">Name:</string>
+    <string name="shop_logo">ShopImage</string>
+    <string name="category">Category</string>
+    <string name="latitude">latitude:</string>
+    <string name="longitude">longitude:</string>
+    <string name="telephone">Phone number:</string>
+    <array name="categories">
+        <item>other</item>
+        <item>shoes</item>
+        <item>jeans</item>
+        <item>cosmetics</item>
+        <item>cars</item>
+    </array>
+    <string name="facebook_app_id">407380982792443</string>
+    <string name="addImg">Add Image</string>
+    <string name="dltImg">Delete Image</string>
+    <string name="add">ADD</string>
+    <string name="location">Geolocation</string>
+    <string name="no_shop">Добавьте новый магазин</string>
+    <string name="no_goods">Добавьте товар</string>
+    <string name="som">сом</string>
+    <string name="dollar"> $ </string>
+    <string name="no_connection">Пожалуйста проверьте интернет соединение</string>
+
+    <string name="login">ВОЙТИ</string>
+    <string name="registration">РЕГИСТРАЦИЯ</string>
+    <string name="create">СОЗДАТЬ</string>
+    <string name="send">ОТПРАВИТЬ</string>
+    <string name="Login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="email">Email</string>
+    <string name="confirm_pass">Повотрите пароль</string>
+    <string name="forgotten_pass"><u>* Забыли пароль?</u></string>
+    <string name="error">Обнаружена ошибка.</string>
+    <string name="empty_list">Список пуст</string>
+
+</resources>
