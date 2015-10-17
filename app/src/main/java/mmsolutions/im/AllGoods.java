@@ -66,7 +66,7 @@ public class AllGoods extends ListActivity {
         // HashMap for ListView
         productsList = new ArrayList<>();
         text = (TextView)findViewById(R.id.text_message);
-        pDialog = new ProgressDialog(AllGoods.this);
+        pDialog = new ProgressDialog(this);
         url = getString(R.string.sql_handler);
 
 
@@ -77,6 +77,9 @@ public class AllGoods extends ListActivity {
         phone = i.getStringExtra(TAG_PHONE);
         coords = i.getStringExtra(TAG_COORDS);
         description = i.getStringExtra(TAG_DESCRIPTION);
+//        if(description.length()>250){
+//            description = description.substring(0,250) + "...";
+//        }
 
         ((TextView)findViewById(R.id.title)).setText(title);
         ((TextView)findViewById(R.id.description)).setText(description);
@@ -94,9 +97,9 @@ public class AllGoods extends ListActivity {
                 Intent i = new Intent(getApplicationContext(), ShowWay.class);
                 i.putExtra(TAG_LAT, lat);
                 i.putExtra(TAG_LNG, lng);
-                startActivity(i);
             }
         });
+        startActivity(i);
 
         // Loading products in Background Thread. Get ListView
         ListView lv = getListView();
