@@ -132,12 +132,11 @@ public class AddShop extends Activity {
                     "VALUES ('%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s', '%7$s');", title, adrs, number, desc, lat, lng, owner);
 
             //"DELETE FROM shop WHERE id = ";
-            params.add(new BasicNameValuePair("type", "set"));
             params.add(new BasicNameValuePair("sql", sql));
 
             Log.d("MY_LOG", params.toString());
 
-            String url = getString(R.string.sql_handler); //url to send
+            String url = getString(R.string.insert); //url to send
             JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
 
             Log.d(LOG_TAG, "jsonParser: " + jsonParser.toString());

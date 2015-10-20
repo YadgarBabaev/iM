@@ -36,7 +36,7 @@ import java.util.List;
 public class AllGoods extends ListActivity {
 
     ProgressDialog pDialog;
-    String shop_id, title, address, phone, coords, description, url;
+    String shop_id, title, address, phone, lat, lng, description, url;
     JSONParser jParser = new JSONParser();
     RequestParams request = new RequestParams();
     ArrayList<HashMap<String, String>> productsList;
@@ -49,10 +49,9 @@ public class AllGoods extends ListActivity {
     private static final String TAG_ADDRESS = "address";
     private static final String TAG_PRICE = "price";
     private static final String TAG_PHONE = "phone_number";
-    private static final String TAG_COORDS = "coordinates";
     private static final String TAG_LAT = "latitude";
     private static final String TAG_LNG = "longitude";
-    private static final String TAG_DESCRIPTION = "description";
+    private static final String TAG_DESCRIPTION = "text";
     // products JSONArray
     JSONArray data = null;
     TextView text;
@@ -67,39 +66,27 @@ public class AllGoods extends ListActivity {
         productsList = new ArrayList<>();
         text = (TextView)findViewById(R.id.text_message);
         pDialog = new ProgressDialog(this);
-        url = getString(R.string.sql_handler);
+        url = getString(R.string.get_data);
 
 
         Intent i = getIntent();
         shop_id = i.getStringExtra(TAG_ID);
         title = i.getStringExtra(TAG_TITLE);
-        address = i.getStringExtra(TAG_ADDRESS);
-        phone = i.getStringExtra(TAG_PHONE);
-        coords = i.getStringExtra(TAG_COORDS);
-        description = i.getStringExtra(TAG_DESCRIPTION);
-//        if(description.length()>250){
-//            description = description.substring(0,250) + "...";
-//        }
 
         ((TextView)findViewById(R.id.title)).setText(title);
-        ((TextView)findViewById(R.id.description)).setText(description);
-        ((TextView)findViewById(R.id.contacts)).setText(phone);
-        ((TextView)findViewById(R.id.address)).setText(address);
+
+
 
         ImageButton imageButton = (ImageButton)findViewById(R.id.show_map);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] parts = coords.split(", ");
-                String lat = parts[0];
-                String lng = parts[1];
-
                 Intent i = new Intent(getApplicationContext(), ShowWay.class);
                 i.putExtra(TAG_LAT, lat);
                 i.putExtra(TAG_LNG, lng);
+                startActivity(i);
             }
         });
-        startActivity(i);
 
         // Loading products in Background Thread. Get ListView
         ListView lv = getListView();
@@ -140,6 +127,63 @@ public class AllGoods extends ListActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    class GetShopDetails extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog.setMessage("Loading... Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        int success;
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<>();
+            String sql = "SELECT * FROM shop WHERE id = " + shop_id;
+
+            params.add(new BasicNameValuePair("sql", sql));
+
+            JSONObject json = jParser.makeHttpRequest(url, "POST", params);
+            // Check your log cat for JSON response
+            Log.d("All Data: ", json.toString());
+
+            try {
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    data = json.getJSONArray(TAG_GOODS);
+                    JSONObject c = data.getJSONObject(0);
+
+                    title = c.getString(TAG_TITLE);
+                    address = c.getString(TAG_ADDRESS);
+                    phone = c.getString(TAG_PHONE);
+                    description = c.getString(TAG_DESCRIPTION);
+                    lat = c.getString(TAG_LAT);
+                    lng = c.getString(TAG_LNG);
+                } else {Log.d("MESSAGE", json.getString("message"));}
+            } catch (JSONException e) {e.printStackTrace();}
+            return null;
+        }
+
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after getting all products
+            pDialog.dismiss();
+            if (success == 1) {
+                if(description.length()>250){
+                    description = description.substring(0,250) + "...";
+                }
+                ((TextView)findViewById(R.id.title)).setText(title);
+                ((TextView)findViewById(R.id.description)).setText(description);
+                ((TextView)findViewById(R.id.contacts)).setText(phone);
+                ((TextView)findViewById(R.id.address)).setText(address);
+                new LoadAllGoods().execute();
+            }
+        }
+    }
+
     class LoadAllGoods extends AsyncTask<String, String, String> {
 
         @Override
@@ -175,11 +219,13 @@ public class AllGoods extends ListActivity {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject c = data.getJSONObject(i);
 
+                        Log.d("Row", c.toString());
                         // Storing each json item in variable
                         int id = c.getInt(TAG_ID);
                         String name = c.getString(TAG_TITLE);
                         String desc = c.getString(TAG_DESCRIPTION);
                         int price = c.getInt(TAG_PRICE);
+                        int ctrl = c.getInt("controlPrice");
                         Log.d("GOODS:", id + ": " + name);
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<>();
@@ -188,8 +234,9 @@ public class AllGoods extends ListActivity {
                         map.put(TAG_ID, String.valueOf(id));
                         map.put(TAG_TITLE, name);
                         map.put(TAG_DESCRIPTION, desc);
-                        map.put(TAG_PRICE, String.valueOf(price));
-
+                        if(ctrl == 1) {
+                            map.put(TAG_PRICE, String.valueOf(price));
+                        }
                         // adding HashList to ArrayList
                         productsList.add(map);
                     }
@@ -294,6 +341,7 @@ public class AllGoods extends ListActivity {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 pDialog.dismiss();
+//                new GetShopDetails().execute();
                 new LoadAllGoods().execute();
             }
 

@@ -3,6 +3,8 @@
 
     <string name="url">http://192.168.88.70/im/</string>
     <string name="sql_handler">http://192.168.88.70/im/sql_handler.php</string>
+    <string name="get_data">http://192.168.88.70/im/getdata.php</string>
+    <string name="insert">http://192.168.88.70/im/insert.php</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
