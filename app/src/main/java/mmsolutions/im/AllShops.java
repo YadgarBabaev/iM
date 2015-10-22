@@ -92,19 +92,17 @@ public class AllShops extends ListActivity {
                 // getting values from selected ListItem
                 String shop_id = ((TextView) view.findViewById(R.id.shopID)).getText().toString();
                 String title = ((TextView) view.findViewById(R.id.shopTitle)).getText().toString();
-//                String desc = ((TextView) view.findViewById(R.id.description)).getText().toString();
-//                String phone = ((TextView) view.findViewById(R.id.shopPhone)).getText().toString();
-//                String address = ((TextView) view.findViewById(R.id.shopAddress)).getText().toString();
-//                String coords = ((TextView) view.findViewById(R.id.coordinates)).getText().toString();
+                String desc = ((TextView) view.findViewById(R.id.description)).getText().toString();
+                String phone = ((TextView) view.findViewById(R.id.shopPhone)).getText().toString();
+                String address = ((TextView) view.findViewById(R.id.shopAddress)).getText().toString();
 
                 // Starting new intent
                 Intent in = new Intent(getApplicationContext(), AllGoods.class);
                 in.putExtra(TAG_ID, shop_id);
                 in.putExtra(TAG_NAME, title);
-//                in.putExtra(TAG_ADDRESS, address);
-//                in.putExtra(TAG_PHONE, phone);
-//                in.putExtra(TAG_DESCRIPTION, desc);
-//                in.putExtra(TAG_COORDS, coords);
+                in.putExtra(TAG_ADDRESS, address);
+                in.putExtra(TAG_PHONE, phone);
+                in.putExtra(TAG_DESCRIPTION, desc);
                 startActivity(in);
             }
         });

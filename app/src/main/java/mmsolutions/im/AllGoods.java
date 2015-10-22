@@ -51,7 +51,8 @@ public class AllGoods extends ListActivity {
     private static final String TAG_PHONE = "phone_number";
     private static final String TAG_LAT = "latitude";
     private static final String TAG_LNG = "longitude";
-    private static final String TAG_DESCRIPTION = "text";
+    private static final String TAG_DESCRIPTION = "description";
+    private static final String TAG_TEXT = "text";
     // products JSONArray
     JSONArray data = null;
     TextView text;
@@ -72,9 +73,18 @@ public class AllGoods extends ListActivity {
         Intent i = getIntent();
         shop_id = i.getStringExtra(TAG_ID);
         title = i.getStringExtra(TAG_TITLE);
+        description = i.getStringExtra(TAG_DESCRIPTION);
+        phone = i.getStringExtra(TAG_PHONE);
+        address = i.getStringExtra(TAG_ADDRESS);
+
+        if(description.length()>250){
+            description = description.substring(0,250) + "...";
+        }
 
         ((TextView)findViewById(R.id.title)).setText(title);
-
+        ((TextView)findViewById(R.id.description)).setText(description);
+        ((TextView)findViewById(R.id.contacts)).setText(phone);
+        ((TextView)findViewById(R.id.address)).setText(address);
 
 
         ImageButton imageButton = (ImageButton)findViewById(R.id.show_map);
@@ -127,62 +137,62 @@ public class AllGoods extends ListActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class GetShopDetails extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog.setMessage("Loading... Please wait...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        int success;
-        protected String doInBackground(String... args) {
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<>();
-            String sql = "SELECT * FROM shop WHERE id = " + shop_id;
-
-            params.add(new BasicNameValuePair("sql", sql));
-
-            JSONObject json = jParser.makeHttpRequest(url, "POST", params);
-            // Check your log cat for JSON response
-            Log.d("All Data: ", json.toString());
-
-            try {
-                success = json.getInt(TAG_SUCCESS);
-                if (success == 1) {
-                    // products found
-                    // Getting Array of Products
-                    data = json.getJSONArray(TAG_GOODS);
-                    JSONObject c = data.getJSONObject(0);
-
-                    title = c.getString(TAG_TITLE);
-                    address = c.getString(TAG_ADDRESS);
-                    phone = c.getString(TAG_PHONE);
-                    description = c.getString(TAG_DESCRIPTION);
-                    lat = c.getString(TAG_LAT);
-                    lng = c.getString(TAG_LNG);
-                } else {Log.d("MESSAGE", json.getString("message"));}
-            } catch (JSONException e) {e.printStackTrace();}
-            return null;
-        }
-
-        protected void onPostExecute(String file_url) {
-            // dismiss the dialog after getting all products
-            pDialog.dismiss();
-            if (success == 1) {
-                if(description.length()>250){
-                    description = description.substring(0,250) + "...";
-                }
-                ((TextView)findViewById(R.id.title)).setText(title);
-                ((TextView)findViewById(R.id.description)).setText(description);
-                ((TextView)findViewById(R.id.contacts)).setText(phone);
-                ((TextView)findViewById(R.id.address)).setText(address);
-                new LoadAllGoods().execute();
-            }
-        }
-    }
+//    class GetShopDetails extends AsyncTask<String, String, String> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            pDialog.setMessage("Loading... Please wait...");
+//            pDialog.setIndeterminate(false);
+//            pDialog.setCancelable(false);
+//            pDialog.show();
+//        }
+//
+//        int success;
+//        protected String doInBackground(String... args) {
+//            // Building Parameters
+//            List<NameValuePair> params = new ArrayList<>();
+//            String sql = "SELECT * FROM shop WHERE id = " + shop_id;
+//
+//            params.add(new BasicNameValuePair("sql", sql));
+//
+//            JSONObject json = jParser.makeHttpRequest(url, "POST", params);
+//            // Check your log cat for JSON response
+//            Log.d("All Data: ", json.toString());
+//
+//            try {
+//                success = json.getInt(TAG_SUCCESS);
+//                if (success == 1) {
+//                    // products found
+//                    // Getting Array of Products
+//                    data = json.getJSONArray(TAG_GOODS);
+//                    JSONObject c = data.getJSONObject(0);
+//
+//                    title = c.getString(TAG_TITLE);
+//                    address = c.getString(TAG_ADDRESS);
+//                    phone = c.getString(TAG_PHONE);
+//                    description = c.getString(TAG_DESCRIPTION);
+//                    lat = c.getString(TAG_LAT);
+//                    lng = c.getString(TAG_LNG);
+//                } else {Log.d("MESSAGE", json.getString("message"));}
+//            } catch (JSONException e) {e.printStackTrace();}
+//            return null;
+//        }
+//
+//        protected void onPostExecute(String file_url) {
+//            // dismiss the dialog after getting all products
+//            pDialog.dismiss();
+//            if (success == 1) {
+//                if(description.length()>250){
+//                    description = description.substring(0,250) + "...";
+//                }
+//                ((TextView)findViewById(R.id.title)).setText(title);
+//                ((TextView)findViewById(R.id.description)).setText(description);
+//                ((TextView)findViewById(R.id.contacts)).setText(phone);
+//                ((TextView)findViewById(R.id.address)).setText(address);
+//                new LoadAllGoods().execute();
+//            }
+//        }
+//    }
 
     class LoadAllGoods extends AsyncTask<String, String, String> {
 
@@ -201,7 +211,6 @@ public class AllGoods extends ListActivity {
             List<NameValuePair> params = new ArrayList<>();
             String sql = "SELECT * FROM goods WHERE shop_id = " + shop_id;
 
-            params.add(new BasicNameValuePair("type", "get"));
             params.add(new BasicNameValuePair("sql", sql));
 
             JSONObject json = jParser.makeHttpRequest(url, "POST", params);
@@ -223,7 +232,7 @@ public class AllGoods extends ListActivity {
                         // Storing each json item in variable
                         int id = c.getInt(TAG_ID);
                         String name = c.getString(TAG_TITLE);
-                        String desc = c.getString(TAG_DESCRIPTION);
+                        String text = c.getString(TAG_TEXT);
                         int price = c.getInt(TAG_PRICE);
                         int ctrl = c.getInt("controlPrice");
                         Log.d("GOODS:", id + ": " + name);
@@ -233,7 +242,7 @@ public class AllGoods extends ListActivity {
                         // adding each child node to HashMap key => value
                         map.put(TAG_ID, String.valueOf(id));
                         map.put(TAG_TITLE, name);
-                        map.put(TAG_DESCRIPTION, desc);
+                        map.put(TAG_TEXT, text);
                         if(ctrl == 1) {
                             map.put(TAG_PRICE, String.valueOf(price));
                         }
@@ -254,7 +263,7 @@ public class AllGoods extends ListActivity {
                     public void run() {
                         ListAdapter adapter = new SimpleAdapter(
                                 AllGoods.this, productsList,
-                                R.layout.list_item_for_goods, new String[]{TAG_ID, TAG_TITLE, TAG_DESCRIPTION, TAG_PRICE},
+                                R.layout.list_item_for_goods, new String[]{TAG_ID, TAG_TITLE, TAG_TEXT, TAG_PRICE},
                                 new int[]{R.id.goodsID, R.id.goods_name, R.id.goods_description, R.id.goods_price});
                         // updating ListView
                         setListAdapter(adapter);
@@ -281,7 +290,6 @@ public class AllGoods extends ListActivity {
             List<NameValuePair> params = new ArrayList<>();
             String sql = "DELETE FROM shop WHERE id = " + shop_id;
 
-            params.add(new BasicNameValuePair("type", "set"));
             params.add(new BasicNameValuePair("sql", sql));
 
             JSONObject json = jParser.makeHttpRequest(url, "POST", params);
