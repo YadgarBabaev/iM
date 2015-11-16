@@ -5,4 +5,7 @@
     <color name="primary_material_dark">#66808080</color>
     <color name="holo_light_primary">#5a5a5a</color>
     <color name="background_holo_light">#c9c8c8</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
 </resources>

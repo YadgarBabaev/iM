@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/shop_list"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="Shops"/>
+        <item android:id="@+id/goods_list"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="Goods"/>
+    </group>
+
+    <item android:title="Events">
+        <menu>
+            <item android:id="@+id/add_shop"
+                android:icon="@android:drawable/ic_menu_camera"
+                android:title="Add Shop"/>
+            <item android:id="@+id/add_goods"
+                android:icon="@android:drawable/ic_menu_slideshow"
+                android:title="Add Goods"/>
+        </menu>
+    </item>
+
+</menu>

@@ -18,19 +18,6 @@
         android:shadowDx="1"
         android:shadowDy="1"/>
 
-    <ImageView
-        android:id="@+id/i1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/i2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <ImageView
-        android:id="@+id/i3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <!--<LinearLayout-->
         <!--android:orientation="vertical"-->
         <!--android:layout_width="fill_parent"-->

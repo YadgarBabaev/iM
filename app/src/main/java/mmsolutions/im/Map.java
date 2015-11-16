@@ -45,9 +45,8 @@ public class Map extends FragmentActivity{
         });
 
         Intent i = getIntent();
-
-        lat = Double.parseDouble(i.getStringExtra("lat"));
-        lng = Double.parseDouble(i.getStringExtra("lng"));
+        lat = i.getDoubleExtra("lat", 0);
+        lng = i.getDoubleExtra("lng", 0);
         Log.d("LatLng", lat + ", " +  lng);
 
         if (lat == 0 || lng == 0){
@@ -87,8 +86,8 @@ public class Map extends FragmentActivity{
             @Override
             public void onClick(View v) {
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("Lat", String.format("%1$.6f", markerLat));
-                returnIntent.putExtra("Lng", String.format("%1$.6f", markerLng));
+                returnIntent.putExtra("Lat", markerLat);
+                returnIntent.putExtra("Lng", markerLng);
                 setResult(RESULT_OK, returnIntent);
                 finish();
                 Log.d("LatLng", "Lat :" + markerLat + " Long :" + markerLng);

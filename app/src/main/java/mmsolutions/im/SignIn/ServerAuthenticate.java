@@ -1,6 +1,6 @@
 package mmsolutions.im.SignIn;
 
 public interface ServerAuthenticate {
-        public String userSignUp(final String name, final String email, final String pass, String authType) throws Exception;
-        public String userSignIn(final String user, final String pass, String authType) throws Exception;
+        String userSignUp(final String name, final String email, final String pass, String authType) throws Exception;
+        String userSignIn(final String user, final String pass, String authType) throws Exception;
 }

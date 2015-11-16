@@ -22,7 +22,6 @@
         <item>cosmetics</item>
         <item>cars</item>
     </array>
-    <string name="facebook_app_id">407380982792443</string>
     <string name="addImg">Add Image</string>
     <string name="dltImg">Delete Image</string>
     <string name="add">ADD</string>
@@ -44,5 +43,8 @@
     <string name="forgotten_pass"><u>* Забыли пароль?</u></string>
     <string name="error">Обнаружена ошибка.</string>
     <string name="empty_list">Список пуст</string>
+    <string name="description">Описание:</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

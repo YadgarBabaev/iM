@@ -1,10 +1,11 @@
 package mmsolutions.im;
-//
+
 import android.app.Activity;
+import android.os.Bundle;
+
 //import android.app.ProgressDialog;
 //import android.content.Intent;
 //import android.os.AsyncTask;
-import android.os.Bundle;
 //import android.util.Log;
 //import android.view.Gravity;
 //import android.view.Menu;
@@ -12,8 +13,7 @@ import android.os.Bundle;
 //import android.view.MenuItem;
 //import android.view.View;
 //import android.view.ViewGroup;
-import android.view.View;
-import android.widget.ImageButton;
+
 //import android.widget.ImageView;
 //import android.widget.LinearLayout;
 //import android.widget.ListAdapter;
@@ -38,7 +38,7 @@ import android.widget.ImageButton;
 //import mmsolutions.im.SignIn.MainPage;
 //
 public class Main extends Activity {
-//
+
 //    JSONParser jParser = new JSONParser();
 //    RequestParams request = new RequestParams();
 //
@@ -48,30 +48,11 @@ public class Main extends Activity {
 //    TextView text;
 //    String url, shop_id;
 
-    ImageButton imageButton, button;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.goods_view);
-
-        imageButton = (ImageButton)findViewById(R.id.menu_open);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                findViewById(R.id.menu).setVisibility(View.VISIBLE);
-                imageButton.setVisibility(View.INVISIBLE);
-            }
-        });
-        button = (ImageButton)findViewById(R.id.menu_close);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                findViewById(R.id.menu).setVisibility(View.INVISIBLE);
-                imageButton.setVisibility(View.VISIBLE);
-            }
-        });
-
+        setContentView(R.layout.main);
+//
 //        url = getString(R.string.sql_handler); //url to send
 //        pDialog = new ProgressDialog(Main.this);
 //
@@ -103,6 +84,7 @@ public class Main extends Activity {
 ////        final TextView textMyFont = (TextView)findViewById(R.id.text);
 ////        textMyFont.setTypeface(Typeface.createFromAsset(getAssets(), "7fonts.ru_eurof56.ttf"));
     }
+//
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu items for use in the action bar

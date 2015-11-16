@@ -11,6 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -31,8 +32,8 @@ public class ParseComServerAuthenticate implements ServerAuthenticate {
         httpPost.addHeader("Content-Type", "application/json");
 
 
-//        String user = "{\"username\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + pass + "\"}";
-        String user = "{\"username\":\"" + email + "\",\"password\":\"" + pass + "\",\"phone\":\"415-392-0202\"}";
+        String user = "{\"username\":\"" + name + "\",\"email\":\"" + email + "\",\"password\":\"" + pass + "\"}";
+//        String user = "{\"username\":\"" + email + "\",\"password\":\"" + pass + "\",\"phone\":\"415-392-0202\"}";
         HttpEntity entity = new StringEntity(user);
         httpPost.setEntity(entity);
 
@@ -61,10 +62,11 @@ public class ParseComServerAuthenticate implements ServerAuthenticate {
     @Override
     public String userSignIn(String user, String pass, String authType) throws Exception {
 
-        Log.d("udini", "userSignIn");
+        Log.d("LOGIN", "userSignIn");
 
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        String url = "https://api.parse.com/1/login";
+//        String url = "https://api.parse.com/1/login";
+        String url = "http://85.113.17.196:92/api/v1/users/login";
 
 
         String query = null;
@@ -77,8 +79,8 @@ public class ParseComServerAuthenticate implements ServerAuthenticate {
 
         HttpGet httpGet = new HttpGet(url);
 
-        httpGet.addHeader("X-Parse-Application-Id", "XUafJTkPikD5XN5HxciweVuSe12gDgk2tzMltOhr");
-        httpGet.addHeader("X-Parse-REST-API-Key", "8L9yTQ3M86O4iiucwWb4JS7HkxoSKo7ssJqGChWx");
+//        httpGet.addHeader("X-Parse-Application-Id", "XUafJTkPikD5XN5HxciweVuSe12gDgk2tzMltOhr");
+//        httpGet.addHeader("X-Parse-REST-API-Key", "8L9yTQ3M86O4iiucwWb4JS7HkxoSKo7ssJqGChWx");
 
         HttpParams params = new BasicHttpParams();
         params.setParameter("username", user);
@@ -95,14 +97,15 @@ public class ParseComServerAuthenticate implements ServerAuthenticate {
                 ParseComError error = new Gson().fromJson(responseString, ParseComError.class);
                 throw new Exception("Error signing-in ["+error.code+"] - " + error.error);
             }
+            JSONObject j = new JSONObject(responseString);
+            authtoken = j.getString("token");
 
-            User loggedUser = new Gson().fromJson(responseString, User.class);
-            authtoken = loggedUser.sessionToken;
+//            User loggedUser = new Gson().fromJson(responseString, User.class);
+//            authtoken = loggedUser.sessionToken;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return authtoken;
     }
 

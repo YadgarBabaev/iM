@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent">
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/cover"
                 android:layout_gravity="center"
                 android:background="@drawable/image_border"
                 android:layout_width="match_parent"
@@ -47,22 +47,36 @@
                 android:contentDescription="@string/dltImg"
                 android:padding="0dp"
                 android:visibility="gone"/>
-        </FrameLayout>    <!--Image-->
+        </FrameLayout><!--Cover-->
         <LinearLayout
             android:padding="10dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/shop_name"/>
-            <EditText
-                android:id="@+id/etShopName"
-                android:inputType="text"
+            <ImageView
+                android:id="@+id/shopLogo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@android:drawable/ic_menu_camera"
+                android:contentDescription="@string/shop_logo"/>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout> <!--ShopName-->
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shop_name"/>
+                <EditText
+                    android:id="@+id/shopTitle"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout> <!--ShopName-->
+        </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -77,13 +91,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/address"/>
                 <EditText
-                    android:id="@+id/etShopAddress"
+                    android:id="@+id/shopAddress"
                     android:inputType="textLongMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <ImageButton
-                android:id="@+id/fillLatLng"
+                android:id="@+id/getLatLng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="0dp"
@@ -102,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/telephone"/>
             <EditText
-                android:id="@+id/etPhone"
+                android:id="@+id/shopPhone"
                 android:inputType="phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -113,9 +127,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
-                android:id="@+id/etDescription"
-                android:inputType="phone"
-                android:hint="Description"
+                android:id="@+id/shopDescription"
+                android:inputType="text"
+                android:hint="@string/description"
                 android:minLines="5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
