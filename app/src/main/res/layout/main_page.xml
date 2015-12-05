@@ -44,24 +44,24 @@
                 android:gravity="center_horizontal"
                 android:text="@string/login"/>
 
-            <mmsolutions.im.CustomFontTextView
-                android:id="@+id/btnRegistration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:background="@drawable/button"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/registration"/>
+            <!--<mmsolutions.im.CustomFontTextView-->
+                <!--android:id="@+id/btnRegistration"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="40dp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:paddingLeft="20dp"-->
+                <!--android:paddingRight="20dp"-->
+                <!--android:paddingStart="20dp"-->
+                <!--android:paddingEnd="20dp"-->
+                <!--android:background="@drawable/button"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@string/registration"/>-->
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

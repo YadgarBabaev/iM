@@ -1,12 +1,13 @@
-package mmsolutions.bitmapslist;
+package mmsolutions.im;
+
+import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import android.graphics.Bitmap;
-import android.util.Log;
 
 public class MemoryCache {
 
@@ -64,12 +65,12 @@ public class MemoryCache {
         if(size>limit){
 
             //least recently accessed item will be the first one iterated
-            Iterator<Entry<String, Bitmap>> iter=cache.entrySet().iterator();
+            Iterator<Entry<String, Bitmap>> iterator=cache.entrySet().iterator();
 
-            while(iter.hasNext()){
-                Entry<String, Bitmap> entry=iter.next();
+            while(iterator.hasNext()){
+                Entry<String, Bitmap> entry=iterator.next();
                 size-=getSizeInBytes(entry.getValue());
-                iter.remove();
+                iterator.remove();
                 if(size<=limit)
                     break;
             }

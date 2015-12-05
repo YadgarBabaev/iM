@@ -1,4 +1,10 @@
-package mmsolutions.bitmapslist;
+package mmsolutions.im;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,13 +20,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-
-import android.os.Handler;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView;
 
 public class ImageLoader {
 
@@ -145,7 +144,7 @@ public class ImageLoader {
         // Download image file from web
         try {
 
-            Bitmap bitmap=null;
+            Bitmap bitmap;
             URL imageUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
             conn.setConnectTimeout(30000);
@@ -214,7 +213,7 @@ public class ImageLoader {
             stream2.close();
             return bitmap;
 
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException ignored) {
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -226,9 +225,7 @@ public class ImageLoader {
 
         String tag=imageViews.get(photoToLoad.imageView);
         //Check url is already exist in imageViews MAP
-        if(tag==null || !tag.equals(photoToLoad.url))
-            return true;
-        return false;
+        return tag == null || !tag.equals(photoToLoad.url);
     }
 
     //Used to display bitmap in the UI thread

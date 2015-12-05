@@ -3,9 +3,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/background_holo_light</item>
+        <item name="windowActionBar">false</item>
     </style>
-    <style name="ImageBackground" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="ImageBackground" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@mipmap/welcome_screen</item>
         <item name="android:textColor">@android:color/white</item>
     </style>

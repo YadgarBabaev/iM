@@ -1,7 +1,8 @@
-package mmsolutions.bitmapslist;
+package mmsolutions.im;
+
+import android.content.Context;
 
 import java.io.File;
-import android.content.Context;
 
 public class FileCache {
 
@@ -34,8 +35,7 @@ public class FileCache {
         //Identify images by hashcode or encode by URLEncoder.encode.
         String filename=String.valueOf(url.hashCode());
 
-        File f = new File(cacheDir, filename);
-        return f;
+        return new File(cacheDir, filename);
 
     }
 

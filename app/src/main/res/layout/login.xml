@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/forgotten_pass"/>
+            android:text="* Create new user"/>
 
         <mmsolutions.im.CustomFontTextView
             android:id="@+id/btnOK"

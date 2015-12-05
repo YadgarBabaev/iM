@@ -3,21 +3,21 @@
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/shop_list"
-            android:icon="@android:drawable/ic_menu_gallery"
+            android:icon="@mipmap/shop_icon"
             android:title="Shops"/>
-        <item android:id="@+id/goods_list"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Goods"/>
+        <item android:id="@+id/my_shop_list"
+            android:icon="@mipmap/shop_icon"
+            android:title="My Shops"/>
+        <!--<item android:id="@+id/goods_list"-->
+            <!--android:icon="@mipmap/goods_icon"-->
+            <!--android:title="Goods"/>-->
     </group>
 
     <item android:title="Events">
         <menu>
             <item android:id="@+id/add_shop"
-                android:icon="@android:drawable/ic_menu_camera"
+                android:icon="@mipmap/add_shop_icon"
                 android:title="Add Shop"/>
-            <item android:id="@+id/add_goods"
-                android:icon="@android:drawable/ic_menu_slideshow"
-                android:title="Add Goods"/>
         </menu>
     </item>
 

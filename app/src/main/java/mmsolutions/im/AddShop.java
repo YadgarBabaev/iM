@@ -1,17 +1,21 @@
 package mmsolutions.im;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -20,19 +24,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +37,10 @@ import java.nio.charset.Charset;
 http://programmerguru.com/android-tutorial/how-to-upload-image-to-php-server/ */
 
 public class AddShop extends Activity {
+
+    JSONParser jParser = new JSONParser();
+    private Uri mImageCaptureUri;
+    private static int CAMERA_REQUEST = 10;
     private static int RESULT_LOAD_IMAGE = 11;
     private static int RESULT_LOAD_LOGO = 12;
     String picturePath, logoPath, authToken;
@@ -54,7 +53,7 @@ public class AddShop extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_shop);
+        setContentView(R.layout.shop);
         pDialog = new ProgressDialog(this);
 
         Button add_shop_btn = (Button) findViewById(R.id.btnOK);
@@ -91,6 +90,8 @@ public class AddShop extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
+//                Intent chooseImageIntent = ImagePicker.getPickImageIntent(getApplicationContext());
+//                startActivityForResult(chooseImageIntent, RESULT_LOAD_IMAGE);
             }
         });
         dltButton.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +113,8 @@ public class AddShop extends Activity {
     }
     class NewShop extends AsyncTask<String, String, String> {
 
+        boolean success = false;
+        String response = "";
         String title = ((EditText)findViewById(R.id.shopTitle)).getText().toString();
         String address = ((EditText)findViewById(R.id.shopAddress)).getText().toString();
         String phone = ((EditText)findViewById(R.id.shopPhone)).getText().toString();
@@ -130,12 +133,6 @@ public class AddShop extends Activity {
         protected String doInBackground(String... args) {
             try {
                 String url = "http://85.113.17.196:92/api/v1/shop/add"; //url to send
-                HttpClient httpclient = new DefaultHttpClient();
-                httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-                HttpPost httppost = new HttpPost(url);
-                httppost.addHeader("TOKEN", authToken);
-                httppost.setHeader("enctype", "application/x-www-form-urlencoded");
-
                 MultipartEntity mpEntity = new MultipartEntity();
                 Charset charset = Charset.forName("UTF-8");
 
@@ -145,29 +142,26 @@ public class AddShop extends Activity {
                 mpEntity.addPart("description", new StringBody(description, charset));
                 mpEntity.addPart("latitude", new StringBody(String.valueOf(lat)));
                 mpEntity.addPart("longitude", new StringBody(String.valueOf(lng)));
-
                 File coverFile = new File(picturePath);
                 mpEntity.addPart("cover", new FileBody(coverFile));
-
                 File logoFile = new File(logoPath);
                 mpEntity.addPart("logo", new FileBody(logoFile));
 
-                httppost.setEntity(mpEntity);
-                HttpResponse response = httpclient.execute(httppost);
-                HttpEntity resEntity = response.getEntity();
-                String responseString = EntityUtils.toString(resEntity);
-                JSONArray j = new JSONArray(responseString);
-                Log.d("RESPONSE", j.toString());
-
-                httpclient.getConnectionManager().shutdown();
-            } catch (IOException | JSONException e) {e.printStackTrace();}
+                JSONObject json = jParser.makeHttpRequest(url, "POST", mpEntity, authToken);
+                response = String.valueOf(json);
+                if(Boolean.parseBoolean(response)) { success = true; }
+//                else { j = new JSONObject(responseString); }
+//                Log.d("RESPONSE", responseString);
+            } catch (IOException e) {e.printStackTrace();}
             return null;
         }
 
         @Override
         protected void onPostExecute(String file_url) {
             pDialog.dismiss();
-            startActivity(new Intent(getApplicationContext(), MyShopsList.class).putExtra("token", authToken));
+            if(!success) {
+                Log.d("RESPONSE", response);
+            } else { finish(); }
         }
     }
 
@@ -177,6 +171,7 @@ public class AddShop extends Activity {
             lat = data.getDoubleExtra("Lat", 0);
             lng = data.getDoubleExtra("Lng", 0);
         }
+
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
@@ -193,6 +188,12 @@ public class AddShop extends Activity {
             cover.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             dltButton.setVisibility(View.VISIBLE);
         }
+//        else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK && data != null) {
+//            Bitmap photo = (Bitmap) data.getExtras().get("data");
+//            Bitmap bitmap = ImagePicker.getImageFromResult(this, resultCode, data);
+//            cover.setImageBitmap(photo);
+//            dltButton.setVisibility(View.VISIBLE);
+//        }
         if (requestCode == RESULT_LOAD_LOGO && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -209,14 +210,9 @@ public class AddShop extends Activity {
     }
 
     public void uploadImage() {
-        // When Image is selected from Gallery
-        if (picturePath != null && !picturePath.isEmpty() && logoPath != null && !logoPath.isEmpty()) {
-//            pDialog.setMessage("Converting Image to Binary Data");
-//            pDialog.show();
-            new NewShop().execute();
-        } else {
-            Toast.makeText(getApplicationContext(), "You must select images from gallery before you try to upload", Toast.LENGTH_LONG).show();
-        }
+        // When Images is selected from Gallery
+        if (picturePath != null && !picturePath.isEmpty() && logoPath != null && !logoPath.isEmpty()) {new NewShop().execute();
+        } else {Toast.makeText(getApplicationContext(), "You must select images from gallery before you try to upload", Toast.LENGTH_LONG).show();}
     }
 
 //    String encodeImage(ImageView iv){
@@ -335,6 +331,43 @@ public class AddShop extends Activity {
         }
     }
 
+    private  void showDialog(){
+        final String [] items = new String [] {"From Camera", "From SD Card"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item,items);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Select Image");
+        builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
+            public void onClick( DialogInterface dialog, int item ) {
+                if (item == 0) {
+                    Intent intent    = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File file        = new File(Environment.getExternalStorageDirectory(),
+                            "tmp_avatar_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
+                    mImageCaptureUri = Uri.fromFile(file);
+
+                    try {
+                        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+                        intent.putExtra("return-data", true);
+
+                        startActivityForResult(intent, CAMERA_REQUEST);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    dialog.cancel();
+                } else {
+                    Intent intent = new Intent();
+
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+
+                    startActivityForResult(Intent.createChooser(intent, "Complete action using"), RESULT_LOAD_IMAGE);
+                }
+            }
+        } );
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 //    private void getExistingAccountAuthToken() {
 //        String mAuthTokenType = getIntent().getStringExtra("AUTH_TYPE");
 //        AccountManager am = AccountManager.get(getBaseContext());

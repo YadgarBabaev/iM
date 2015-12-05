@@ -39,23 +39,29 @@ public class Map extends FragmentActivity{
             @Override
             public void onMapClick(LatLng latLng) {
                 marker.setPosition(latLng);
+                if(!marker.isVisible())
+                    marker.setVisible(true);
                 markerLat = latLng.latitude;
                 markerLng = latLng.longitude;
             }
         });
 
         Intent i = getIntent();
-        lat = i.getDoubleExtra("lat", 0);
-        lng = i.getDoubleExtra("lng", 0);
+        lat = i.getDoubleExtra("lat", 0); markerLat = lat;
+        lng = i.getDoubleExtra("lng", 0); markerLng = lng;
         Log.d("LatLng", lat + ", " +  lng);
 
-        if (lat == 0 || lng == 0){
-            lat = 42.87442305;
-            lng = 74.61158752;
-        }
-
+        marker = map.addMarker(new MarkerOptions().
+                position(new LatLng(lat, lng)).draggable(true).
+                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(42.87442305, 74.61158752), 11);
         map.animateCamera(cameraUpdate);
+
+        if (lat == 0 || lng == 0){
+            marker.setVisible(false);
+//            lat = 42.87442305;
+//            lng = 74.61158752;
+        }
 
         map.setMyLocationEnabled(true);
         UiSettings settings = map.getUiSettings();
@@ -77,12 +83,8 @@ public class Map extends FragmentActivity{
             public void onMarkerDragEnd(Marker marker) {}
         });
 
-        marker = map.addMarker(new MarkerOptions().
-                position(new LatLng(lat, lng)).draggable(true).
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-
-        ImageButton show = (ImageButton)findViewById(R.id.getLatLng);
-        show.setOnClickListener(new View.OnClickListener() {
+        ImageButton ok = (ImageButton)findViewById(R.id.getLatLng);
+        ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent returnIntent = new Intent();

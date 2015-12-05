@@ -7,18 +7,17 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:background="@drawable/background">
+        android:layout_margin="6dp">
         <TextView
             android:id="@+id/goodsID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:src="@android:drawable/btn_star_big_on"/>
+            android:id="@+id/logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="6dp"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -27,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="6dp"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:textColor="@android:color/holo_blue_light"
                 android:layout_alignParentTop="true"
@@ -38,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="6dp"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:gravity="center"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
@@ -47,9 +46,20 @@
                 android:id="@+id/goods_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:maxLength="40"
-                android:layout_alignParentBottom="true"/>
+                android:layout_below="@id/goods_name"/>
+            <mmsolutions.im.CustomFontTextView
+                android:id="@+id/goods_sizes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_below="@id/goods_description"/>
         </RelativeLayout>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/goods_image"
+        android:adjustViewBounds="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
